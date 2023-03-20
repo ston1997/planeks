@@ -1,0 +1,15 @@
+@import url(../css/index.css);
+
+.form_login {
+    height: 445px;
+    width: 650px;
+
+    margin: 180px auto;
+
+    border: 1px solid #E5E5E5;
+    border-radius: 4px;
+}
+
+.btn {
+    padding: 8px 15px 8px 24px;
+}

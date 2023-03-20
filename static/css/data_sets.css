@@ -1,0 +1,28 @@
+@import url(../css/index.css);
+
+.btn_generate {
+    background-color: #5CB85C;
+
+    padding: 5px 10px;
+    font-weight: 400;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+}
+
+.btn_ready {
+    background-color: #5CB85C;
+    border: none;
+    border-radius: 4px;
+}
+
+.btn_Download {
+    border: none;
+    background: none;
+}
+
+.btn_processing {
+    background-color: #999999;
+    border: none;
+    border-radius: 4px;
+}

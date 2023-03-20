@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data sets</title>
+    <link rel="shortcut icon" type="image/png" href="{% static "images/favicon2.png" %}">
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="#"><img class="nav_brand" src="{% static "images/favicon.png" %}" alt="favicon"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="{% url 'list' %}">Schemes list</a>
+                        <a class="nav-link" href="{% url 'create' %}">Add new scheme</a>
+                    </div>
+                </div>
+                <a href=""><button class="me-3 nav_button">Hello, {{ user.username }}</button></a>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button class="nav_button" type="submit">Logout</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <div class="uk-overflow-auto">
+            <table class="uk-table uk-table-divider">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Column name</th>
+                    <th>Column type</th>
+                </tr>
+                </thead>
+                {% for column in object.columns.all %}
+                <tr>
+                    <td class="uk-table-shrink">{{ forloop.counter }}</td>
+                    <td class="uk-table-shrink">{{ column.name }}</td>
+                    <td class="uk-table-shrink">{{ column.data_type }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+
+        <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-top">
+            <div>
+                <h1 class="uk-h3">Data sets of {{ object }}</h1>
+            </div>
+            <div>
+                <form class="uk-width-large uk-flex uk-flex-middle uk-flex-right" method="post">
+                    {% csrf_token %}
+                    <label class="uk-uk-form-label uk-margin-small-right" for="rows"> Rows:</label>
+                    <div class="uk-form-controls">
+                        <input class="form-control" name="rows" style="max-width: 100px;"
+                               type="number" required/>
+                    </div>
+                    <div class="col">
+                        <button class="btn_generate text-nowrap" type="submit" value="submit">Generate data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Created</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    {% for data_set in object.data_sets.all %}
+                    <tr>
+                        <td class="uk-table-shrink">{{ forloop.counter }}</td>
+                        <td class="uk-table-shrink">{{ data_set.created_at|date:"Y-m-d H:i" }}</td>
+                        <td class="btn_ready"><span class="btn_ready-{{ data_set.get_status_display|lower }}">{{ data_set.get_status_display }}</span></td>
+                        <td><button class="btn_Download">{% if data_set.file %}<a  href="{{data_set.file.url}}"> Download </button></a>{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% endblock %}
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+</html>

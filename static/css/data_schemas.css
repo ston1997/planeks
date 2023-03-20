@@ -1,0 +1,21 @@
+@import url(../css/index.css);
+
+.button_wew {
+    background-color: #5CB85C;
+
+    padding: 8px 10px;
+
+    border: none;
+    border-radius: 4px;
+}
+
+.btn_delete {
+
+    margin-left: 15px;
+    border: none;
+    background: none;
+
+    color: #D9534F;
+    font-weight: 400;
+    font-size: 16px;
+}

@@ -1,0 +1,10 @@
+@import url(../css/index.css);
+
+.btn-delete {
+    border: none;
+    background: none;
+
+    color: #D9534F;
+    font-weight: 400;
+    font-size: 16px;
+}

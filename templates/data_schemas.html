@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schemas list</title>
+    <link rel="shortcut icon" type="image/png" href="{% static "images/favicon2.png" %}">
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href=""><img class="nav_brand" src="{% static "images/favicon.png" %}" alt="favicon"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="{% url 'list' %}">Schemes list</a>
+                        <a class="nav-link" href="{% url 'create' %}">Add new scheme</a>
+                    </div>
+                </div>
+                <a href=""><button class="me-3 nav_button">Hello, username</button></a>
+
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button class="nav_button" type="submit">Logout</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="row mt-5 mb-3 justify-content-center align-items-center">
+                <div class="col">
+                    <h1>Data schemas</h1>
+                </div>
+                <div class="col-2">
+                    <button class="button_wew" href="{% url 'create' %}">New schema</button>
+                </div>
+            </div>
+            {% block content %}
+            <div class="uk-margin-top uk-flex uk-flex-between uk-flex-middle">
+
+            </div>
+            {% if object_list.count > 0 %}
+            <table class="table table-bordered">
+                <!--<div class="uk-overflow-auto">-->
+                    <table class="uk-table uk-table-divider">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Modofied</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        {% for schema in object.schema.all %}
+                        <tr>
+                            <td class="uk-table-shrink">{{ forloop.counter }}</td>
+                            <td class="uk-table-shrink">{{ schema.name }}</td>
+                            <td class="uk-table-shrink">{{ schema.created_at|date:"Y-m-d" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {% for schema in object_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    {% if schema.columns.count > 0 %}
+                    <td><a href="{% url 'schema-detail' pk=schema.pk %}" class="uk-link" uk-tooltip="Create dataset">{{
+                        schema.name|default:"Untitled schema" }}</a></td>
+                    {% else %}
+                    <td><a href="#!" class="uk-link-muted" uk-tooltip="You need to add at least one column" uk-disabled>{{
+                        schema.name|default:"Untitled schema" }}</a></td>
+                    {% endif %}
+                    <td>{{ el.updated_at|date:"Y-m-d" }}</td>
+                    <td>
+                        <a href="{% url 'edit' pk=schema.pk %}" class="uk-link uk-margin-small-right">Edit scheme</a>
+                        <a href="{% url 'delete' pk=schema.pk %}" <button class="btn_delete">Delete</button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <div class="uk-flex uk-flex-middle uk-flex-center uk-height-small uk-flex-column">
+                <div>
+                    <h2 class="uk-text-muted">No schemas yet</h2>
+                </div>
+            </div>
+            {% endif %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+
+</html>
