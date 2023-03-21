@@ -55,40 +55,27 @@
                 </div>
             </div>
             {% block content %}
-
             {% if object_list.count > 0 %}
             <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Modified</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                        </thead>
-                        {% for schema in object_list.schema.all %}
-                        <tr>
-                            <td class="uk-table-shrink">{{ forloop.counter }}</td>
-                            <td class="uk-table-shrink">{{ schema.name }}</td>
-                            <td class="uk-table-shrink">{{ schema.created_at|date:"Y-m-d H:i" }}</td>
-                        </tr>
-                        {% endfor %}
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Modified</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
                 {% for schema in object_list %}
                 <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <!--{% if schema.columns.count > 0 %}-->
+                    <td class="uk-table-shrink">{{ forloop.counter }}</td>
                     <td><a href="{% url 'schema-detail' pk=schema.pk %}" class="uk-link" uk-tooltip="Create dataset">{{ schema.name }}</a></td>
-                    <!--{% else %}-->
-                    <td><a href="" class="uk-link-muted" uk-tooltip="You need to add at least one column" uk-disabled>{{ schema.name }}</a></td>
-                    <!--{% endif %}-->
-                    <td><a{{ schema.created_at|date:"Y-m-d" }}</a></td>
+                    <td class="uk-table-shrink">{{ schema.created_at|date:"Y-m-d H:i" }}</td>
                     <td>
                         <a href="{% url 'edit' pk=schema.pk %}" class="uk-link uk-margin-small-right">Edit scheme</a>
                         <a href="{% url 'delete' pk=schema.pk %}" <button class="btn_delete">Delete</button></a>
                     </td>
                 </tr>
                 {% endfor %}
-                </thead>
             </table>
             {% else %}
             <div class="uk-flex uk-flex-middle uk-flex-center uk-height-small uk-flex-column">
