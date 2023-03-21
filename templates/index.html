@@ -22,7 +22,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="#"><img class="nav_brand" src="{% static "images/favicon.png" %}" alt="favicon"></a>
+                <a class="navbar-brand" href="https://www.planeks.net/"><img class="nav_brand" src="{% static "images/favicon.png" %}" alt="favicon"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -34,7 +34,7 @@
                         <a class="nav-link" href="{% url 'create' %}">Add new scheme</a>
                     </div>
                 </div>
-                <a href="#"><button class="me-3 nav_button">Hello, {{ user.username }}</button></a>
+                <a href=""><button class="me-3 nav_button">Hello, {{ user.username }}</button></a>
                 <form action="{% url 'logout' %}" method="post">
                   {% csrf_token %}
                   <button type="submit">Logout</button>

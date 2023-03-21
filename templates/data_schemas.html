@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static "css/index.css" %}">
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/data_schemas.css" %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
@@ -21,7 +22,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href=""><img class="nav_brand" src="{% static "images/favicon.png" %}" alt="favicon"></a>
+                <a class="navbar-brand" href="https://www.planeks.net/"><img class="nav_brand" src="{% static "images/favicon.png" %}" alt="favicon"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -30,10 +31,10 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-link" href="{% url 'list' %}">Schemes list</a>
-                        <a class="nav-link" href="{% url 'create' %}">Add new scheme</a>
+                        <a class="nav-link" href="{% url 'create' %}">Add new schema</a>
                     </div>
                 </div>
-                <a href=""><button class="me-3 nav_button">Hello, username</button></a>
+                <a href=""><button class="me-3 nav_button">Hello, {{ user.username }}</button></a>
 
                 <form action="{% url 'logout' %}" method="post">
                   {% csrf_token %}
@@ -50,51 +51,44 @@
                     <h1>Data schemas</h1>
                 </div>
                 <div class="col-2">
-                    <button class="button_wew" href="{% url 'create' %}">New schema</button>
+                    <a href="{% url 'create' %}"><button class="button_wew">New schema</button></a>
                 </div>
             </div>
             {% block content %}
-            <div class="uk-margin-top uk-flex uk-flex-between uk-flex-middle">
 
-            </div>
             {% if object_list.count > 0 %}
             <table class="table table-bordered">
-                <!--<div class="uk-overflow-auto">-->
-                    <table class="uk-table uk-table-divider">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Modofied</th>
-                            <th>Actions</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Modified</th>
+                            <th scope="col">Actions</th>
                         </tr>
                         </thead>
-                        {% for schema in object.schema.all %}
+                        {% for schema in object_list.schema.all %}
                         <tr>
                             <td class="uk-table-shrink">{{ forloop.counter }}</td>
                             <td class="uk-table-shrink">{{ schema.name }}</td>
-                            <td class="uk-table-shrink">{{ schema.created_at|date:"Y-m-d" }}</td>
+                            <td class="uk-table-shrink">{{ schema.created_at|date:"Y-m-d H:i" }}</td>
                         </tr>
                         {% endfor %}
-                    </table>
-                </div>
                 {% for schema in object_list %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    {% if schema.columns.count > 0 %}
-                    <td><a href="{% url 'schema-detail' pk=schema.pk %}" class="uk-link" uk-tooltip="Create dataset">{{
-                        schema.name|default:"Untitled schema" }}</a></td>
-                    {% else %}
-                    <td><a href="#!" class="uk-link-muted" uk-tooltip="You need to add at least one column" uk-disabled>{{
-                        schema.name|default:"Untitled schema" }}</a></td>
-                    {% endif %}
-                    <td>{{ el.updated_at|date:"Y-m-d" }}</td>
+                    <!--{% if schema.columns.count > 0 %}-->
+                    <td><a href="{% url 'schema-detail' pk=schema.pk %}" class="uk-link" uk-tooltip="Create dataset">{{ schema.name }}</a></td>
+                    <!--{% else %}-->
+                    <td><a href="" class="uk-link-muted" uk-tooltip="You need to add at least one column" uk-disabled>{{ schema.name }}</a></td>
+                    <!--{% endif %}-->
+                    <td><a{{ schema.created_at|date:"Y-m-d" }}</a></td>
                     <td>
                         <a href="{% url 'edit' pk=schema.pk %}" class="uk-link uk-margin-small-right">Edit scheme</a>
                         <a href="{% url 'delete' pk=schema.pk %}" <button class="btn_delete">Delete</button></a>
                     </td>
                 </tr>
                 {% endfor %}
+                </thead>
             </table>
             {% else %}
             <div class="uk-flex uk-flex-middle uk-flex-center uk-height-small uk-flex-column">

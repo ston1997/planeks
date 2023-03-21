@@ -6,8 +6,9 @@ from django.views.generic.edit import FormMixin
 from .forms import SchemaForm, DataSetForm, SchemaColumnInline
 from .models import Schema
 
-from django.views.generic import ListView, DeleteView, DetailView
+from django.views.generic import ListView, DetailView
 
+from django.shortcuts import redirect, get_object_or_404
 
 from extra_views import CreateWithInlinesView, UpdateWithInlinesView
 
@@ -40,6 +41,7 @@ class CreateSchema(LoginRequiredMixin, CreateWithInlinesView):
 
 class SchemeList(LoginRequiredMixin, ListView):
     template_name = 'data_schemas.html'
+    context_object_name = "schema"
 
     def get_queryset(self):
 
@@ -72,12 +74,10 @@ class EditSchema(LoginRequiredMixin, UserPassesTestMixin, UpdateWithInlinesView)
             return reverse("list")
 
 
-class SchemeDelete(DeleteView):
-    template_name = "data_schemas.html"
-    success_url = '/list'
-
-    def get_queryset(self):
-        return Schema.objects.filter(owner=self.request.user)
+def delete(request, pk):
+    data = get_object_or_404(Schema, pk=pk)
+    data.delete()
+    return redirect('list')
 
 
 class SchemeDetail(LoginRequiredMixin, FormMixin, DetailView):

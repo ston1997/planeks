@@ -29,11 +29,11 @@ class Schema(models.Model):
 
     name = models.CharField(max_length=100)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
     delimiter = models.CharField(
         max_length=1,
         choices=Delimiter.choices,
         default=Delimiter.COMMA,
-        help_text="column separator",
     )
     quote_character = models.CharField(
         max_length=1,

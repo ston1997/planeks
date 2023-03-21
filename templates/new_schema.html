@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static "css/index.css" %}">
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/new_schema.css" %}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New schema</title>
@@ -18,7 +19,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="#"><img class="nav_brand" src="{% static "images/favicon.png" %}" alt="favicon"></a>
+                <a class="navbar-brand" href="https://www.planeks.net/"><img class="nav_brand" src="{% static "images/favicon.png" %}" alt="favicon"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -30,9 +31,9 @@
                         <a class="nav-link" href="{% url 'create' %}">Add new scheme</a>
                     </div>
                 </div>
-                <a href="#"><button class="me-3 nav_button">Hello, username</button></a>
+                <a href=""><button class="me-3 nav_button">Hello, {{ user.username }}</button></a>
                 <form action="{% url 'logout' %}" method="post">
-                  <button type="submit">Logout</button>
+                  <button type="submit" class="nav_button">Logout</button>
                 </form>
             </div>
         </nav>
@@ -44,11 +45,11 @@
                 <div class="col">
 
                 {% block content %}
-                    <section class="uk-section uk-section-xsmall">
-                        <form method="post" id="schemaform" enctype='multipart/form-data'>
-                            <div class="uk-flex uk-flex-between uk-flex-middle uk-padding uk-padding-remove-bottom">
+                    <section class="containeer">
+                        <form method="post" id="name" enctype='multipart/form-data'>
+                            <div class="row">
                                 <div>
-                                    <h1 class="uk-h3">New schema</h1>
+                                    <h1 class="col">New schema</h1>
                                 </div>
                                 <div>
                                     <div class="col text-end">
@@ -57,18 +58,18 @@
                                 </div>
                             </div>
                             {% csrf_token %}
-                            <div class="uk-padding uk-padding-remove-vertical head-form">
+                            <div class="form-control">
                                 {{ form }}
                             </div>
                             <div class="row">
                                 <h3 class="col">Schema columns</h3>
                             </div>
-                            <div class="uk-flex uk-flex-column">
+                            <div class="form-control">
                                 {% for formset in inlines %}
-                                <div class="formset">
+                                <div class="form-select">
                                     {{ formset.management_form }}
                                     {% for columnsform in formset %}
-                                    <div class="uk-padding columns-form {% if forloop.last %}last uk-border-rounded uk-margin-top{% else %} uk-padding-remove-vertical {% endif %}">
+                                    <div class="form-label {% if forloop.last %}last uk-border-rounded uk-margin-top{% else %} uk-padding-remove-vertical {% endif %}">
                                         {{ columnsform }}
                                         {% if forloop.last %}
                                         <div class="row">
